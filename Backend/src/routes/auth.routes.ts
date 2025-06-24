@@ -1,6 +1,16 @@
 import { Router } from 'express';
-import { loginUser, registerUser } from '../controllers/auth.controller';
-import { loginValidation, registerValidation } from '../middlewares/auth.validation';
+import { 
+  loginUser, 
+  registerUser, 
+  forgotPassword, 
+  resetPassword 
+} from '../controllers/auth.controller';
+import { 
+  loginValidation, 
+  registerValidation, 
+  forgotPasswordValidation,
+  resetPasswordValidation
+} from '../middlewares/auth.validation';
 
 const router = Router();
 
@@ -17,5 +27,19 @@ router.post('/register', registerValidation, registerUser);
  * @access  Public
  */
 router.post('/login', loginValidation, loginUser);
+
+/**
+ * @route   POST api/auth/forgot-password
+ * @desc    Send a password reset code to user's email
+ * @access  Public
+ */
+router.post('/forgot-password', forgotPasswordValidation, forgotPassword);
+
+/**
+ * @route   POST api/auth/reset-password
+ * @desc    Reset user's password using the reset code
+ * @access  Public
+ */
+router.post('/reset-password', resetPasswordValidation, resetPassword);
 
 export default router;
