@@ -1,0 +1,7 @@
+import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
+import { Github, Twitter, Linkedin, Mail } from 'lucide-react';
+const Footer = () => {
+    const currentYear = new Date().getFullYear();
+    return (_jsx("footer", { className: "bg-gray-100 py-8 border-t border-gray-200", children: _jsx("div", { className: "container mx-auto px-4", children: _jsxs("div", { className: "flex flex-col md:flex-row justify-between items-center", children: [_jsx("div", { className: "mb-4 md:mb-0", children: _jsxs("p", { className: "text-gray-600", children: ["\u00A9 ", currentYear, " StudyShare. All rights reserved."] }) }), _jsxs("div", { className: "flex space-x-6", children: [_jsx("a", { href: "https://github.com", target: "_blank", rel: "noopener noreferrer", className: "text-gray-500 hover:text-blue-600 transition-colors", "aria-label": "GitHub", children: _jsx(Github, { size: 20 }) }), _jsx("a", { href: "https://twitter.com", target: "_blank", rel: "noopener noreferrer", className: "text-gray-500 hover:text-blue-600 transition-colors", "aria-label": "Twitter", children: _jsx(Twitter, { size: 20 }) }), _jsx("a", { href: "https://linkedin.com", target: "_blank", rel: "noopener noreferrer", className: "text-gray-500 hover:text-blue-600 transition-colors", "aria-label": "LinkedIn", children: _jsx(Linkedin, { size: 20 }) }), _jsx("a", { href: "mailto:contact@studyshare.com", className: "text-gray-500 hover:text-blue-600 transition-colors", "aria-label": "Email", children: _jsx(Mail, { size: 20 }) })] })] }) }) }));
+};
+export default Footer;
