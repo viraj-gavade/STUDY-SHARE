@@ -1,9 +1,18 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Menu, X, LogOut } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
+  
+  const handleLogout = () => {
+    logout();
+    setIsMenuOpen(false);
+    navigate('/');
+  };
 
   return (
     <nav className="bg-white border-b border-gray-200 py-4">
@@ -21,15 +30,33 @@ const Navbar = () => {
           <Link to="/browse" className="text-gray-700 hover:text-blue-600 font-medium">
             Browse
           </Link>
-          <Link to="/login" className="text-gray-700 hover:text-blue-600 font-medium">
-            Login
-          </Link>
-          <Link 
-            to="/register" 
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-          >
-            Register
-          </Link>
+        
+          
+          {isAuthenticated ? (
+            <>
+              <Link to="/dashboard" className="text-gray-700 hover:text-blue-600 font-medium">
+                Dashboard
+              </Link>
+              <button 
+                onClick={handleLogout}
+                className="flex items-center text-gray-700 hover:text-blue-600 font-medium"
+              >
+                <LogOut size={18} className="mr-1" /> Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/auth/login" className="text-gray-700 hover:text-blue-600 font-medium">
+                Login
+              </Link>
+              <Link 
+                to="/auth/signup" 
+                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+              >
+                Register
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -59,20 +86,41 @@ const Navbar = () => {
             >
               Browse
             </Link>
-            <Link 
-              to="/login" 
-              className="text-gray-700 hover:text-blue-600 font-medium"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Login
-            </Link>
-            <Link 
-              to="/register" 
-              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors inline-block text-center"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Register
-            </Link>
+            
+            {isAuthenticated ? (
+              <>
+                <Link 
+                  to="/dashboard" 
+                  className="text-gray-700 hover:text-blue-600 font-medium"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Dashboard
+                </Link>
+                <button 
+                  onClick={handleLogout}
+                  className="flex items-center text-gray-700 hover:text-blue-600 font-medium"
+                >
+                  <LogOut size={18} className="mr-1" /> Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link 
+                  to="/auth/login" 
+                  className="text-gray-700 hover:text-blue-600 font-medium"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Login
+                </Link>
+                <Link 
+                  to="/auth/signup" 
+                  className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors inline-block text-center"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Register
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}
