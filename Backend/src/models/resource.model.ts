@@ -1,5 +1,12 @@
 import { Schema, model, Document, Types } from 'mongoose';
 
+// Comment interface
+export interface IComment {
+  user: Types.ObjectId;
+  text: string;
+  createdAt: Date;
+}
+
 export interface IResource extends Document {
   _id: Types.ObjectId;
   title: string;
@@ -10,11 +17,30 @@ export interface IResource extends Document {
   teacher?: string;
   tags?: string[];
   fileUrl: string;
+  fileType: string;
   uploadedBy: Types.ObjectId;
   upvotes: number;
+  comments: IComment[];
   createdAt: Date;
   updatedAt: Date;
 }
+
+// Comment schema
+const CommentSchema = new Schema({
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  text: {
+    type: String,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
 const ResourceSchema = new Schema<IResource>(
   {
@@ -45,6 +71,10 @@ const ResourceSchema = new Schema<IResource>(
       type: String,
       required: true,
     },
+    fileType: {
+      type: String,
+      required: true,
+    },
     uploadedBy: {
       type: Schema.Types.ObjectId,
       ref: 'User',
@@ -54,6 +84,7 @@ const ResourceSchema = new Schema<IResource>(
       type: Number,
       default: 0,
     },
+    comments: [CommentSchema],
   },
   {
     timestamps: true, // This will add createdAt and updatedAt fields automatically

@@ -25,17 +25,15 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/resources', resourceRoutes);
 
-// Error handling for file uploads
-const errorHandler = (
-  err: any,
+// Error handling middleware (must have 4 parameters for Express to recognize as error handler)
+app.use((
+  err: Error,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   console.error(err.stack);
   res.status(500).json({ message: 'Something went wrong' });
-};
-
-app.use(errorHandler);
+});
 
 export default app;
