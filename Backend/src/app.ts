@@ -12,7 +12,28 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  // Allow requests from your frontend origin
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  // Allow credentials to be sent with requests (cookies, etc.)
+  credentials: true,
+  // Set allowed HTTP methods
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  // Set allowed HTTP headers
+  allowedHeaders: ['Content-Type', 'Authorization','Referrer-Policy'],
+}));
+
+// Set security headers
+app.use((req, res, next) => {
+  // Control how much referrer information is included with requests
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  // Prevent MIME type sniffing
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  // Help protect against XSS attacks
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  next();
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

@@ -27,15 +27,18 @@ const Navbar = () => {
           <Link to="/" className="text-gray-700 hover:text-blue-600 font-medium">
             Home
           </Link>
-          <Link to="/browse" className="text-gray-700 hover:text-blue-600 font-medium">
-            Browse
+          <Link to="/resources" className="text-gray-700 hover:text-blue-600 font-medium">
+            Browse Resources
           </Link>
         
           
           {isAuthenticated ? (
             <>
-              <Link to="/dashboard" className="text-gray-700 hover:text-blue-600 font-medium">
-                Dashboard
+              <Link to="/resources/upload" className="text-gray-700 hover:text-blue-600 font-medium">
+                Upload
+              </Link>
+              <Link to="/profile" className="text-gray-700 hover:text-blue-600 font-medium">
+                My Profile
               </Link>
               <button 
                 onClick={handleLogout}
@@ -80,21 +83,28 @@ const Navbar = () => {
               Home
             </Link>
             <Link 
-              to="/browse" 
+              to="/resources" 
               className="text-gray-700 hover:text-blue-600 font-medium"
               onClick={() => setIsMenuOpen(false)}
             >
-              Browse
+              Browse Resources
             </Link>
             
             {isAuthenticated ? (
               <>
                 <Link 
-                  to="/dashboard" 
+                  to="/resources/upload" 
                   className="text-gray-700 hover:text-blue-600 font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Dashboard
+                  Upload Resource
+                </Link>
+                <Link 
+                  to="/profile" 
+                  className="text-gray-700 hover:text-blue-600 font-medium"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  My Profile
                 </Link>
                 <button 
                   onClick={handleLogout}

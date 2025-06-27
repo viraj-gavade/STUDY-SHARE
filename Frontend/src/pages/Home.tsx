@@ -34,7 +34,7 @@ const Home = () => {
                     className="flex items-center gap-2"
                     asChild
                   >
-                    <Link to="/browse">
+                    <Link to="/resources">
                       <BookOpen size={18} />
                       Browse Resources
                     </Link>
@@ -45,7 +45,7 @@ const Home = () => {
                     className="flex items-center gap-2"
                     asChild
                   >
-                    <Link to="/upload">
+                    <Link to="/resources/upload">
                       <Upload size={18} />
                       Upload Notes
                     </Link>

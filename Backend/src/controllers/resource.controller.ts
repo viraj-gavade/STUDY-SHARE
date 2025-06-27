@@ -4,12 +4,15 @@ import { AuthRequest } from '../middlewares/auth';
 
 export const createResource = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
+    console.log('Request body:', req.body);
+    console.log('Request file:', req.file);
+    
     if (!req.user) {
       res.status(401).json({ message: 'Authentication required' });
       return;
     }
     
-    // req.file comes from multer
+    // req.file comes from multer-s3
     if (!req.file) {
       res.status(400).json({ message: 'No file uploaded' });
       return;
@@ -17,28 +20,52 @@ export const createResource = async (req: AuthRequest, res: Response, next: Next
     
     const file = req.file as Express.MulterS3.File;
     
+    // Parse tags if provided
+    let tags: string[] = [];
+    if (req.body.tags) {
+      if (typeof req.body.tags === 'string') {
+        tags = req.body.tags.split(',').map((tag: string) => tag.trim());
+      } else if (Array.isArray(req.body.tags)) {
+        tags = req.body.tags;
+      }
+    }
+    
     // Create new resource
     const resource = new Resource({
       title: req.body.title,
-      description: req.body.description,
+      description: req.body.description || '',
       subject: req.body.subject,
       department: req.body.department,
       semester: req.body.semester,
-      teacher: req.body.teacher,
-      tags: req.body.tags?.split(',').map((tag: string) => tag.trim()),
-      fileUrl: file.location,
+      teacher: req.body.teacher || '',
+      tags: tags,
+      fileUrl: file.location, // S3 URL from multer-s3
       fileType: file.mimetype,
       uploadedBy: req.user._id,
     });
     
+    // Save to database
     const savedResource = await resource.save();
+    
+    // Return success response with populated user details
+    const populatedResource = await Resource.findById(savedResource._id)
+      .populate('uploadedBy', 'name email department semester');
     
     res.status(201).json({
       message: 'Resource created successfully',
-      resource: savedResource,
+      resource: populatedResource,
     });
-  } catch (error) {
+  } catch (error:any) {
     console.error('Error creating resource:', error);
+    
+    // Handle specific errors
+    if (error.name === 'ValidationError') {
+      // Mongoose validation error
+      const errors = Object.values(error.errors).map((err: any) => err.message);
+      res.status(400).json({ message: 'Validation error', errors });
+      return;
+    }
+    
     next(error);
   }
 };
@@ -144,6 +171,138 @@ export const addComment = async (req: AuthRequest, res: Response, next: NextFunc
     });
   } catch (error) {
     console.error('Error adding comment:', error);
+    next(error);
+  }
+};
+
+/**
+ * Update a resource's metadata
+ * @route PUT /api/resources/:id
+ * @access Private
+ */
+export const updateResource = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    if (!req.user) {
+      res.status(401).json({ message: 'Authentication required' });
+      return;
+    }
+
+    const resourceId = req.params.id;
+    
+    // Find the resource
+    const resource = await Resource.findById(resourceId);
+    
+    if (!resource) {
+      res.status(404).json({ message: 'Resource not found' });
+      return;
+    }
+    
+    // Check ownership or admin status
+    if (resource.uploadedBy.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+      res.status(403).json({ message: 'Not authorized to update this resource' });
+      return;
+    }
+    
+    // Parse tags if provided
+    let tags = resource.tags;
+    if (req.body.tags) {
+      if (typeof req.body.tags === 'string') {
+        tags = req.body.tags.split(',').map((tag: string) => tag.trim());
+      } else if (Array.isArray(req.body.tags)) {
+        tags = req.body.tags;
+      }
+    }
+    
+    // Update allowed fields
+    const updatedData = {
+      title: req.body.title || resource.title,
+      description: req.body.description || resource.description,
+      subject: req.body.subject || resource.subject,
+      department: req.body.department || resource.department,
+      semester: req.body.semester || resource.semester,
+      teacher: req.body.teacher || resource.teacher,
+      tags: tags,
+    };
+    
+    // Update and return the updated document
+    const updatedResource = await Resource.findByIdAndUpdate(
+      resourceId,
+      updatedData,
+      { new: true }
+    ).populate('uploadedBy', 'name email');
+    
+    res.status(200).json({
+      message: 'Resource updated successfully',
+      resource: updatedResource,
+    });
+  } catch (error) {
+    console.error('Error updating resource:', error);
+    next(error);
+  }
+};
+
+/**
+ * Delete a resource
+ * @route DELETE /api/resources/:id
+ * @access Private (owner or admin)
+ */
+export const deleteResource = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    if (!req.user) {
+      res.status(401).json({ message: 'Authentication required' });
+      return;
+    }
+
+    const resourceId = req.params.id;
+    
+    // Find the resource
+    const resource = await Resource.findById(resourceId);
+    
+    if (!resource) {
+      res.status(404).json({ message: 'Resource not found' });
+      return;
+    }
+    
+    // Check ownership or admin status
+    if (resource.uploadedBy.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+      res.status(403).json({ message: 'Not authorized to delete this resource' });
+      return;
+    }
+    
+    // Delete from database
+    await Resource.findByIdAndDelete(resourceId);
+    
+    // Note: File cleanup from S3 could be implemented here
+    // or handled by a separate scheduled process
+    
+    res.status(200).json({
+      message: 'Resource deleted successfully',
+    });
+  } catch (error) {
+    console.error('Error deleting resource:', error);
+    next(error);
+  }
+};
+
+/**
+ * Get all resources uploaded by the current user
+ * @route GET /api/resources/user
+ * @access Private
+ */
+export const getUserResources = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    if (!req.user) {
+      res.status(401).json({ message: 'Authentication required' });
+      return;
+    }
+
+    const resources = await Resource.find({ uploadedBy: req.user._id })
+      .populate('uploadedBy', 'name email')
+      .sort({ createdAt: -1 });
+      
+    res.status(200).json({ resources });
+  } catch (error) {
+    console.error('Error fetching user resources:', error);
     next(error);
   }
 };

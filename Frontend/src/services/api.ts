@@ -3,8 +3,11 @@ import axios from 'axios';
 // Create axios instance with default config
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  withCredentials: true, // Include cookies with cross-origin requests
   headers: {
     'Content-Type': 'application/json',
+    // Ensure referrer policy is set for all requests
+    'Referrer-Policy': 'strict-origin-when-cross-origin'
   },
 });
 
@@ -88,6 +91,32 @@ const authService = {
   // Reset password with code
   resetPassword: async (data: ResetPasswordData) => {
     const response = await api.post('/auth/reset-password', data);
+    return response.data;
+  },
+  
+  // Get user profile
+  getUserProfile: async () => {
+    const response = await api.get('/auth/profile');
+    return response.data;
+  },
+  
+  // Update user profile
+  updateProfile: async (data: {
+    name?: string;
+    department?: string;
+    semester?: number;
+  }) => {
+    const response = await api.put('/auth/profile', data);
+    return response.data;
+  },
+  
+  // Change password
+  changePassword: async (data: {
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+  }) => {
+    const response = await api.post('/auth/change-password', data);
     return response.data;
   },
 

@@ -199,7 +199,7 @@ const SignUp: React.FC = () => {
           )}
         </div>
 
-        <div>
+        {/* <div>
           <Label htmlFor="role">Role</Label>
           <div className="mt-1">
             <select
@@ -214,7 +214,7 @@ const SignUp: React.FC = () => {
           {errors.role && (
             <p className="mt-1 text-sm text-red-600">{errors.role.message}</p>
           )}
-        </div>
+        </div> */}
 
         <div className="pt-2">
           <Button

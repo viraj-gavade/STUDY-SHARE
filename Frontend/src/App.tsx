@@ -6,6 +6,10 @@ import SignUp from './pages/auth/SignUp';
 import Login from './pages/auth/Login';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
+import ResourcesPage from './pages/resources/ResourcesPage';
+import ResourceDetail from './pages/resources/ResourceDetail';
+import ResourceUploadPage from './pages/resources/ResourceUploadPage';
+import UserDashboard from './pages/profile/UserDashboard';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import AuthDebugger from './components/auth/AuthDebugger';
 import { AuthProvider } from './context/AuthContext';
@@ -33,12 +37,34 @@ function App() {
         <Route path="/register" element={<Navigate to="/auth/signup" replace />} />
         <Route path="/login" element={<Navigate to="/auth/login" replace />} />
 
+        {/* Resource Routes */}
+        <Route path="/resources" element={<ResourcesPage />} />
+        <Route path="/resources/:id" element={<ResourceDetail />} />
+        <Route 
+          path="/resources/upload" 
+          element={
+            <ProtectedRoute requireAuth={true} redirectPath="/auth/login">
+              <ResourceUploadPage />
+            </ProtectedRoute>
+          }
+        />
+
         {/* Protected */}
         <Route
           path="/dashboard"
           element={
             <ProtectedRoute requireAuth={true} redirectPath="/auth/login">
               <Home />
+            </ProtectedRoute>
+          }
+        />
+        
+        {/* User Profile */}
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute requireAuth={true} redirectPath="/auth/login">
+              <UserDashboard />
             </ProtectedRoute>
           }
         />
