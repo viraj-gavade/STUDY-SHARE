@@ -49,7 +49,7 @@ export const uploadToS3 = multer({
   }),
   fileFilter,
   limits: {
-    fileSize: 15 * 1024 * 1024, // Limit file size to 15MB
+    fileSize: 200 * 1024 * 1024, // Limit file size to 15MB
   },
 });
 
@@ -59,7 +59,7 @@ export const handleMulterError = (err: any, req: Request, res: Response, next: N
     // A Multer error occurred when uploading
     if (err.code === 'LIMIT_FILE_SIZE') {
       return res.status(400).json({ 
-        message: 'File too large. Maximum file size is 15MB.' 
+        message: 'File too large. Maximum file size is 200MB.' 
       });
     }
     return res.status(400).json({ message: err.message });

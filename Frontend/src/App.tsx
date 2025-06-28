@@ -10,6 +10,8 @@ import ResourcesPage from './pages/resources/ResourcesPage';
 import ResourceDetail from './pages/resources/ResourceDetail';
 import ResourceUploadPage from './pages/resources/ResourceUploadPage';
 import UserDashboard from './pages/profile/UserDashboard';
+import DashboardPage from './pages/profile/DashboardPage';
+// import UserProfilePage from './pages/profile/UserProfilePage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import AuthDebugger from './components/auth/AuthDebugger';
 import { AuthProvider } from './context/AuthContext';
@@ -49,25 +51,41 @@ function App() {
           }
         />
 
-        {/* Protected */}
+        {/* Protected Routes */}
         <Route
           path="/dashboard"
-          element={
-            <ProtectedRoute requireAuth={true} redirectPath="/auth/login">
-              <Home />
-            </ProtectedRoute>
-          }
-        />
-        
-        {/* User Profile */}
-        <Route
-          path="/profile"
           element={
             <ProtectedRoute requireAuth={true} redirectPath="/auth/login">
               <UserDashboard />
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/new-dashboard"
+          element={
+            <ProtectedRoute requireAuth={true} redirectPath="/auth/login">
+              <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        {/* <Route
+          path="/profile"
+          element={
+            <ProtectedRoute requireAuth={true} redirectPath="/auth/login">
+              <UserProfilePage />
+            </ProtectedRoute>
+          }
+        /> */}
+        
+        {/* User Profile Page */}
+        {/* <Route
+          path="/profile"
+          element={
+            <ProtectedRoute requireAuth={true} redirectPath="/auth/login">
+              <UserProfilePage />
+            </ProtectedRoute>
+          }
+        /> */}
 
         {/* TEMP: Comment out wildcard route for now */}
         {/* <Route path="*" element={<Navigate to="/" />} /> */}

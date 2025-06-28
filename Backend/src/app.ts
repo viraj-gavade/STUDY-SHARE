@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes';
 import resourceRoutes from './routes/resource.routes';
+import userRoutes from './routes/user.router';
 import { Request, Response, NextFunction } from 'express';
 
 // Load environment variables
@@ -18,7 +19,7 @@ app.use(cors({
   // Allow credentials to be sent with requests (cookies, etc.)
   credentials: true,
   // Set allowed HTTP methods
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   // Set allowed HTTP headers
   allowedHeaders: ['Content-Type', 'Authorization','Referrer-Policy'],
 }));
@@ -45,6 +46,7 @@ app.get('/', (req, res) => {
 // Register routes
 app.use('/api/auth', authRoutes);
 app.use('/api/resources', resourceRoutes);
+app.use('/api/users', userRoutes);
 
 // Error handling middleware (must have 4 parameters for Express to recognize as error handler)
 app.use((

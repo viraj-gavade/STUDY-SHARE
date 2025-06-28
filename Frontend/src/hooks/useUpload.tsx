@@ -14,10 +14,10 @@ export const useUpload = () => {
       return false;
     }
 
-    // Check file size (max 15MB)
-    const MAX_FILE_SIZE = 15 * 1024 * 1024; // 15MB
+    // Check file size (max 200MB)
+    const MAX_FILE_SIZE = 200 * 1024 * 1024; // 200MB
     if (file.size > MAX_FILE_SIZE) {
-      setError('File size exceeds 15MB limit');
+      setError(`File size exceeds 200MB limit. Current size: ${(file.size / (1024 * 1024)).toFixed(2)}MB`);
       return false;
     }
 
@@ -44,7 +44,15 @@ export const useUpload = () => {
 
   const uploadResource = async (data: ResourceFormData): Promise<boolean> => {
     
-    console.log('Data recived from the frontend:',data)
+    console.log('Data received from the frontend:', data);
+    if (data.file) {
+      console.log('File details:', {
+        name: data.file.name,
+        size: data.file.size,
+        sizeInMB: (data.file.size / (1024 * 1024)).toFixed(2) + 'MB',
+        type: data.file.type
+      });
+    }
     
     setLoading(true);
     setError(null);
@@ -82,11 +90,13 @@ export const useUpload = () => {
       
       if (data.file) {
         formData.append('file', data.file);
+        console.log('Adding file to formData:', data.file.name);
       }
 
       // Send upload request
-
-      await resourceService.uploadResource(formData);
+      console.log('Sending upload request to server...');
+      const response = await resourceService.uploadResource(formData);
+      console.log('Upload response:', response);
       
       // Show success toast
       toast.success('Resource uploaded successfully!');
@@ -96,11 +106,13 @@ export const useUpload = () => {
       
       return true;
     } catch (err: any) {
+      console.error('Upload error:', err);
+      
       // Handle validation errors from backend
       if (err.response?.data?.errors && Array.isArray(err.response.data.errors)) {
         // Show each validation error as a toast
         err.response.data.errors.forEach((error: { msg: string; path: string; type: string }) => {
-          toast.error(error.msg || 'Validation error');
+          toast.error(`${error.path}: ${error.msg}` || 'Validation error');
         });
         setError('Please fix the validation errors');
       } else {

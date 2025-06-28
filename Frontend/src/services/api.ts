@@ -96,17 +96,17 @@ const authService = {
   
   // Get user profile
   getUserProfile: async () => {
-    const response = await api.get('/auth/profile');
+    const response = await api.get('/users/me');
     return response.data;
   },
   
   // Update user profile
   updateProfile: async (data: {
-    name?: string;
+    email?: string;
     department?: string;
-    semester?: number;
+    semester?: number | string;
   }) => {
-    const response = await api.put('/auth/profile', data);
+    const response = await api.patch('/users/me', data);
     return response.data;
   },
   

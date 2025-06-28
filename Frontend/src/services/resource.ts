@@ -78,6 +78,7 @@ export interface SearchParams {
   semester?: number | string;
   fileType?: string;
   sortBy?: 'recent' | 'upvotes' | 'comments';
+  uploadedBy?: string;
 }
 
 export interface PaginationInfo {
@@ -119,6 +120,7 @@ const resourceService = {
       console.log(`${key}: `, value);
     }
     
+    console.log('Uploading resource with form data:', formData);
     const response = await api.post('/resources', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',

@@ -37,9 +37,12 @@ const Navbar = () => {
               <Link to="/resources/upload" className="text-gray-700 hover:text-blue-600 font-medium">
                 Upload
               </Link>
-              <Link to="/profile" className="text-gray-700 hover:text-blue-600 font-medium">
-                My Profile
+              <Link to="/new-dashboard" className="text-gray-700 hover:text-blue-600 font-medium">
+                Dashboard
               </Link>
+              {/* <Link to="/profile" className="text-gray-700 hover:text-blue-600 font-medium">
+                My Profile
+              </Link> */}
               <button 
                 onClick={handleLogout}
                 className="flex items-center text-gray-700 hover:text-blue-600 font-medium"
@@ -98,6 +101,13 @@ const Navbar = () => {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Upload Resource
+                </Link>
+                <Link 
+                  to="/new-dashboard" 
+                  className="text-gray-700 hover:text-blue-600 font-medium"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Dashboard
                 </Link>
                 <Link 
                   to="/profile" 
