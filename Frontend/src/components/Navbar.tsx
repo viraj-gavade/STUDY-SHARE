@@ -109,13 +109,6 @@ const Navbar = () => {
                 >
                   Dashboard
                 </Link>
-                <Link 
-                  to="/profile" 
-                  className="text-gray-700 hover:text-blue-600 font-medium"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  My Profile
-                </Link>
                 <button 
                   onClick={handleLogout}
                   className="flex items-center text-gray-700 hover:text-blue-600 font-medium"

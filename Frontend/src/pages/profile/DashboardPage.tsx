@@ -12,7 +12,7 @@ const DashboardPage: React.FC = () => {
   const { user } = useAuth();
   const [userResources, setUserResources] = useState<Resource[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<any>(null);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     const fetchUserResources = async () => {
@@ -36,7 +36,7 @@ const DashboardPage: React.FC = () => {
   }, [user]);
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Helmet>
         <title>Dashboard | StudyShare</title>
         <meta name="description" content="View your profile and uploaded resources on StudyShare" />
@@ -44,7 +44,7 @@ const DashboardPage: React.FC = () => {
       
       <Navbar />
       
-      <main className="container mx-auto px-4 py-8 max-w-6xl">
+      <main className="container mx-auto px-4 py-8 max-w-6xl flex-grow">
         <h1 className="text-3xl font-bold mb-6">Your Dashboard</h1>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -65,7 +65,7 @@ const DashboardPage: React.FC = () => {
       </main>
       
       <Footer />
-    </>
+    </div>
   );
 };
 

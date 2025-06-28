@@ -99,13 +99,17 @@ const ResourcesPage: React.FC = () => {
 
   // Handle resource upvote
   const handleUpvote = async (id: string) => {
-    // Resources will be automatically refreshed via ResourceCard component
+    // If user sorts by upvotes, we need to refresh the list to get the updated order
+    if (searchParams.get('sortBy') === 'upvotes') {
+      fetchResources(currentParams);
+    }
+    // Otherwise, each ResourceCard handles its own upvote state
   };
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
     <Navbar />
-    <div className="container mx-auto px-4 py-10">
+    <div className="container mx-auto px-4 py-10 flex-grow">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
         <div>
@@ -141,7 +145,7 @@ const ResourcesPage: React.FC = () => {
       />
     </div>
        <Footer/>
-    </>
+    </div>
   );
 };
 

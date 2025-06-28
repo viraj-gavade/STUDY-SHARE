@@ -7,6 +7,8 @@ import PDFPreview from '@/components/resources/PDFPreview';
 import CommentBox from '@/components/resources/CommentBox';
 import { toast } from 'react-hot-toast';
 import { formatDistanceToNow } from 'date-fns';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 const ResourceDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -80,6 +82,7 @@ const ResourceDetail: React.FC = () => {
   // Error state
   if (error || !resource) {
     return (
+
       <div className="container mx-auto px-4 py-10">
         <div className="bg-red-50 border border-red-200 text-red-800 rounded-md p-4 mb-6">
           <p>{error || 'Resource not found'}</p>
@@ -93,17 +96,11 @@ const ResourceDetail: React.FC = () => {
   
   // Success state with resource details
   return (
+    <>
+    <Navbar/>
     <div className="container mx-auto px-4 py-10">
       {/* Breadcrumb navigation */}
-      <div className="mb-6">
-        <nav className="text-sm text-gray-500">
-          <Link to="/" className="hover:text-blue-600">Home</Link>
-          <span className="mx-2">/</span>
-          <Link to="/resources" className="hover:text-blue-600">Resources</Link>
-          <span className="mx-2">/</span>
-          <span className="text-gray-900">{resource.title}</span>
-        </nav>
-      </div>
+      
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8">
         {/* Resource details column */}
@@ -238,7 +235,10 @@ const ResourceDetail: React.FC = () => {
         </div>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 };
+
 
 export default ResourceDetail;

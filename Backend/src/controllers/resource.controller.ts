@@ -115,16 +115,36 @@ export const upvoteResource = async (req: AuthRequest, res: Response, next: Next
       return;
     }
     
-    // Increment upvotes
-    resource.upvotes += 1;
+    const userId = req.user._id;
+    
+    // Check if user has already upvoted this resource
+    const userIndex = resource.upvotedBy.findIndex(
+      (id) => id.toString() === userId.toString()
+    );
+    
+    let message = '';
+    
+    if (userIndex === -1) {
+      // User hasn't upvoted yet, so add upvote
+      resource.upvotes += 1;
+      resource.upvotedBy.push(userId);
+      message = 'Resource upvoted successfully';
+    } else {
+      // User has already upvoted, so remove upvote
+      resource.upvotes = Math.max(0, resource.upvotes - 1); // Ensure it doesn't go below 0
+      resource.upvotedBy.splice(userIndex, 1);
+      message = 'Upvote removed successfully';
+    }
+    
     await resource.save();
     
     res.status(200).json({ 
-      message: 'Resource upvoted successfully',
-      upvotes: resource.upvotes 
+      message,
+      upvotes: resource.upvotes,
+      hasUpvoted: userIndex === -1 // If it was -1, user has now upvoted
     });
   } catch (error) {
-    console.error('Error upvoting resource:', error);
+    console.error('Error toggling resource upvote:', error);
     next(error);
   }
 };

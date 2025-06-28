@@ -63,7 +63,13 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
   const [upvotes, setUpvotes] = React.useState<number>(resource.upvotes);
   const [isUpvoting, setIsUpvoting] = React.useState<boolean>(false);
   
-  // Handle upvote click
+  // Check if the current user has upvoted this resource
+  const [hasUpvoted, setHasUpvoted] = React.useState<boolean>(() => {
+    if (!user || !resource.upvotedBy) return false;
+    return Array.isArray(resource.upvotedBy) && resource.upvotedBy.includes(user.id);
+  });
+  
+  // Handle upvote click (toggle functionality)
   const handleUpvote = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -79,14 +85,16 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
       setIsUpvoting(true);
       const response = await resourceService.upvoteResource(resource._id);
       setUpvotes(response.upvotes);
+      setHasUpvoted(response.hasUpvoted);
       
       if (onUpvote) {
         onUpvote(resource._id);
       }
       
-      toast.success('Resource upvoted!');
-    } catch (error) {
-      toast.error('Failed to upvote resource',error);
+      toast.success(response.hasUpvoted ? 'Resource upvoted!' : 'Upvote removed!');
+    } catch (err) {
+      console.error('Upvote error:', err);
+      toast.error('Failed to process upvote');
     } finally {
       setIsUpvoting(false);
     }
@@ -156,9 +164,19 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
                 {/* Upvotes */}
                 <button 
                   onClick={handleUpvote} 
-                  className="flex items-center hover:text-blue-600 transition-colors"
+                  className={`flex items-center transition-colors ${
+                    hasUpvoted ? 'text-blue-600 font-medium' : 'text-gray-500 hover:text-blue-600'
+                  }`}
+                  aria-label={hasUpvoted ? "Remove upvote" : "Upvote resource"}
+                  disabled={isUpvoting}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    className={`h-4 w-4 mr-1 ${isUpvoting ? 'animate-pulse' : ''}`}
+                    fill={hasUpvoted ? "currentColor" : "none"} 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor"
+                  >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
                   </svg>
                   <span>{upvotes}</span>

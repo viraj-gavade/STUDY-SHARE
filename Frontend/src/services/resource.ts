@@ -46,6 +46,7 @@ export interface Resource {
   tags?: string[];
   fileUrl: string;
   fileType: string;
+  upvotedBy?: string[];
   uploadedBy: {
     _id: string;
     name: string;
@@ -129,8 +130,8 @@ const resourceService = {
     return response.data.resource;
   },
 
-  // Upvote a resource
-  upvoteResource: async (id: string): Promise<{ upvotes: number }> => {
+  // Upvote a resource (toggle functionality)
+  upvoteResource: async (id: string): Promise<{ upvotes: number, hasUpvoted: boolean }> => {
     const response = await api.post(`/resources/${id}/upvote`);
     return response.data;
   },

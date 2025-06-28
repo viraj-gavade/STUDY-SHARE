@@ -20,6 +20,7 @@ export interface IResource extends Document {
   fileType: string;
   uploadedBy: Types.ObjectId;
   upvotes: number;
+  upvotedBy: Types.ObjectId[];
   comments: IComment[];
   createdAt: Date;
   updatedAt: Date;
@@ -84,6 +85,10 @@ const ResourceSchema = new Schema<IResource>(
       type: Number,
       default: 0,
     },
+    upvotedBy: [{
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    }],
     comments: [CommentSchema],
   },
   {
