@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import Resource from '../models/resource.model';
+import Resource from '../models/resource.model.js';
 console.log("✅ resource.routes.ts loaded");
 
 /**

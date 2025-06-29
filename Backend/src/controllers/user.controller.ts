@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { validationResult } from 'express-validator';
-import User from '../models/user.model';
-import { AuthRequest } from '../middlewares/auth';
+import User from '../models/user.model.js';
+import { AuthRequest } from '../middlewares/auth.js';
 
 /**
  * Get current user profile

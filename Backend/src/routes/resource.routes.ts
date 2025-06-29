@@ -8,11 +8,11 @@ import {
   updateResource,
   deleteResource,
   getUserResources
-} from '../controllers/resource.controller';
-import { searchResources } from '../controllers/search.controller';
-import { authMiddleware } from '../middlewares/auth';
-import { uploadToS3, handleMulterError } from '../middlewares/s3Uploader';
-import { resourceValidation, validateResource } from '../middlewares/resource.validation';
+} from '../controllers/resource.controller.js';
+import { searchResources } from '../controllers/search.controller.js';
+import { authMiddleware } from '../middlewares/auth.js';
+import { uploadToS3, handleMulterError } from '../middlewares/s3Uploader.js';
+import { resourceValidation, validateResource } from '../middlewares/resource.validation.js';
 
 const router = express.Router();
 

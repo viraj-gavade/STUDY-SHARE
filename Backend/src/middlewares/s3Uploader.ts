@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
-import { s3Client, BUCKET_NAME } from '../config/aws';
+import { s3Client, BUCKET_NAME } from '../config/aws.js';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 

@@ -4,13 +4,13 @@ import {
   registerUser, 
   forgotPassword, 
   resetPassword 
-} from '../controllers/auth.controller';
+} from '../controllers/auth.controller.js';
 import { 
   loginValidation, 
   registerValidation, 
   forgotPasswordValidation,
   resetPasswordValidation
-} from '../middlewares/auth.validation';
+} from '../middlewares/auth.validation.js';
 
 const router = Router();
 

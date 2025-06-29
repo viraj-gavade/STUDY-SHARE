@@ -1,9 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import authRoutes from './routes/auth.routes';
-import resourceRoutes from './routes/resource.routes';
-import userRoutes from './routes/user.router';
+import authRoutes from './routes/auth.routes.js';
+import resourceRoutes from './routes/resource.routes.js';
+import userRouter from './routes/user.router.js';
 import { Request, Response, NextFunction } from 'express';
 
 // Load env vars
@@ -43,7 +43,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/resources', resourceRoutes);
-app.use('/api/users', userRoutes);
+app.use('/api/users', userRouter);
 
 // Error handler
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {

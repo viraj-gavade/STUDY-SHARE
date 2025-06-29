@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import Resource from '../models/resource.model';
-import { AuthRequest } from '../middlewares/auth';
+import Resource from '../models/resource.model.js';
+import { AuthRequest } from '../middlewares/auth.js';
 
 export const createResource = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {

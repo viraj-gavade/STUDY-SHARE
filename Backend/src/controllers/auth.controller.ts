@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
-import User from '../models/user.model';
-import PasswordReset from '../models/passwordReset.model';
-import { generateToken } from '../utils/jwt.utils';
-import { sendEmail } from '../utils/email.utils';
+import User from '../models/user.model.js';
+import PasswordReset from '../models/passwordReset.model.js';
+import { generateToken } from '../utils/jwt.utils.js';
+import { sendEmail } from '../utils/email.utils.js';
 
 /**
  * Register a new user

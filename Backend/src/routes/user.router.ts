@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { authMiddleware } from '../middlewares/auth';
-import { userValidation } from '../middlewares/user.validation';
-import { getCurrentUser, updateCurrentUser } from '../controllers/user.controller';
+import { authMiddleware } from '../middlewares/auth.js';
+import { userValidation } from '../middlewares/user.validation.js';
+import { getCurrentUser, updateCurrentUser } from '../controllers/user.controller.js';
 
 const User_router = Router();
 
@@ -18,5 +18,4 @@ User_router.get('/me', authMiddleware, getCurrentUser);
  * @access  Private
  */
 User_router.patch('/me', authMiddleware, userValidation, updateCurrentUser);
-
 export default User_router;

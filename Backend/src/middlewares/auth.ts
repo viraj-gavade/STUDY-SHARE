@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { verifyToken, TokenPayload } from '../utils/jwt.utils';
+import { verifyToken, TokenPayload } from '../utils/jwt.utils.js';
 import { Types } from 'mongoose';
-import User from '../models/user.model';
+import User from '../models/user.model.js';
 
 // Extend Request type to include user property
 export interface AuthRequest extends Request {
