@@ -6,37 +6,33 @@ import resourceRoutes from './routes/resource.routes';
 import userRoutes from './routes/user.router';
 import { Request, Response, NextFunction } from 'express';
 
-// Load environment variables
+// Load env vars
 dotenv.config();
 
-// Create Express app
 const app = express();
 
 const allowedOrigin = process.env.FRONTEND_URL || 'http://localhost:5173';
 
-// CORS middleware
 const corsOptions = {
   origin: allowedOrigin,
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Referrer-Policy'],
 };
 
+// ✅ CORS should be the FIRST thing
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Handle preflight
 
-// Explicit preflight handling
-app.options('*', cors(corsOptions));
+// ✅ JSON + URL encoding
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Security headers
+// ✅ Security headers AFTER CORS
 app.use((req, res, next) => {
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-XSS-Protection', '1; mode=block');
   next();
 });
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.get('/', (req, res) => {
