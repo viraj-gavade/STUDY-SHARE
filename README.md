@@ -2,6 +2,60 @@
 
 StudyShare is a full-stack web application that allows students to upload, share, and discover academic resources. Built with the MERN stack (MongoDB, Express, React, Node.js) and integrated with AWS S3 for file storage, it provides a centralized platform for educational content sharing.
 
+## 🌐 Live Deployment
+
+StudyShare is deployed on Render using a multi-service architecture, despite being developed as a monorepo:
+
+- **🚀 Frontend:** [https://study-share-frontend.onrender.com](https://study-share-frontend.onrender.com)
+- **⚙️ Backend API:** [https://study-share-backend.onrender.com/api](https://study-share.onrender.com)
+
+### Deployment Architecture
+
+Despite the project being structured as a monorepo, we've deployed it as two separate services on Render:
+
+1. **Frontend Service**:
+   - Deployed from the `/Frontend` directory
+   - Built with Vite and served as static files
+   - Connected to the backend API using environment variables
+
+2. **Backend Service**:
+   - Deployed from the `/Backend` directory
+   - Running Node.js with Express
+   - Connected to MongoDB Atlas and AWS S3 for data and file storage
+   - Uses environment variables for configuration
+
+This separation allows independent scaling and deployment of each service while maintaining a unified development experience in the monorepo.
+
+### Render Configuration
+
+#### Frontend Service
+- **Build Command**: `npm install && npm run build`
+- **Publish Directory**: `dist`
+- **Environment Variables**:
+  - `VITE_API_URL=https://study-share-backend.onrender.com/api`
+
+#### Backend Service
+- **Build Command**: `npm install && npm run build`
+- **Start Command**: `node dist/server.js`
+- **Environment Variables**:
+  - `PORT=10000`
+  - `MONGODB_URI=your_mongodb_connection_string`
+  - `JWT_SECRET=your_jwt_secret`
+  - `AWS_ACCESS_KEY_ID=your_aws_key`
+  - `AWS_SECRET_ACCESS_KEY=your_aws_secret`
+  - `AWS_REGION=your_aws_region`
+  - `S3_BUCKET_NAME=your_bucket_name`
+  - `FRONTEND_URL=https://study-share-frontend.onrender.com`
+
+### Known Issues and Troubleshooting
+
+When using Express.js 5.x, you may encounter a `path-to-regexp` error with message:
+```
+TypeError: Missing parameter name at 1: https://git.new/pathToRegexpError
+```
+
+This is related to changes in how Express 5.x handles route paths. Make sure all your routes follow the pattern documentation in the [Express 5 migration guide](https://expressjs.com/en/guide/migrating-5.html#path-syntax).
+
 ## ✨ Features
 
 - **🔐 User Authentication**
@@ -146,8 +200,13 @@ StudyShare is a full-stack web application that allows students to upload, share
 
 4. Configure environment variables in .env
    ```
+   # For local development
    VITE_API_URL=http://localhost:5000/api
    VITE_APP_ENV=development
+   
+   # For production (when deployed on Render)
+   # VITE_API_URL=https://study-share-backend.onrender.com/api
+   # VITE_APP_ENV=production
    ```
 
 5. Start the development server
