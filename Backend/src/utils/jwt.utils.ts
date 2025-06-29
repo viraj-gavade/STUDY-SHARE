@@ -9,25 +9,21 @@ const JWT_SECRET = process.env.JWT_SECRET || 'studyshare-secret-key';
 export interface TokenPayload {
   userId: string;
   email: string;
-  role: string;
 }
 
 /**
  * Generate a JWT token for authentication
  * @param userId User ID to include in the token
  * @param email User email to include in the token
- * @param role User role (student or admin)
  * @returns JWT token string
  */
 export const generateToken = (
   userId: Types.ObjectId | string,
-  email: string,
-  role: string
+  email: string
 ): string => {
   const payload: TokenPayload = {
     userId: userId.toString(),
     email,
-    role,
   };
 
   return jwt.sign(payload, JWT_SECRET, {

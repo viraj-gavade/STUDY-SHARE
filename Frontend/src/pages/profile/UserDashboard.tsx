@@ -16,7 +16,6 @@ interface ProfileData {
   email: string;
   department: string;
   semester: number;
-  role: 'student' | 'admin';
   createdAt: string;
 }
 
@@ -142,7 +141,7 @@ const UserDashboard: React.FC = () => {
                   Semester {profile?.semester || ''}
                 </span>
                 <span className="px-2 py-1 bg-purple-100 text-purple-800 rounded-md capitalize">
-                  {profile?.role || user.role || 'Student'}
+                  Student
                 </span>
               </div>
             </div>
@@ -217,10 +216,6 @@ const UserDashboard: React.FC = () => {
                       <div>
                         <p className="text-sm text-gray-500">Semester</p>
                         <p className="font-medium">{profile.semester}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-500">Role</p>
-                        <p className="font-medium capitalize">{profile.role}</p>
                       </div>
                       <div>
                         <p className="text-sm text-gray-500">Joined</p>

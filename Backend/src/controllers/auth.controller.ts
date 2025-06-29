@@ -18,7 +18,7 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
       return;
     }
 
-    const { name, email, password, department, semester, role } = req.body;
+    const { name, email, password, department, semester } = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -33,14 +33,13 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
       email,
       password, // Will be hashed by the pre-save hook
       department,
-      semester,
-      role: role || 'student', // Default to student if not provided
+      semester, 
     });
 
     await newUser.save();
 
     // Generate JWT token
-    const token = generateToken(newUser._id, newUser.email, newUser.role);
+    const token = generateToken(newUser._id, newUser.email);
 
     res.status(201).json({
       message: 'User registered successfully',
@@ -49,7 +48,6 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
         id: newUser._id,
         name: newUser.name,
         email: newUser.email,
-        role: newUser.role,
         department: newUser.department,
         semester: newUser.semester,
       },
@@ -90,7 +88,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
     }
 
     // Generate JWT token
-    const token = generateToken(user._id, user.email, user.role);
+    const token = generateToken(user._id, user.email);
 
     res.status(200).json({
       message: 'Login successful',
@@ -99,7 +97,6 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
         id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role,
         department: user.department,
         semester: user.semester,
       },

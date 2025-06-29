@@ -49,7 +49,6 @@ export interface RegisterData {
   password: string;
   department: string;
   semester: number;
-  role?: 'student' | 'admin';
 }
 
 export interface LoginData {

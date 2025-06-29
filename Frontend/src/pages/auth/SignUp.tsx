@@ -19,8 +19,7 @@ const signupSchema = z.object({
   email: z.string().email({ message: 'Please include a valid email' }),
   password: z.string().min(6, { message: 'Password must be at least 6 characters long' }),
   department: z.string().min(1, { message: 'Department is required' }),
-  semester: z.coerce.number().positive({ message: 'Semester must be a positive number' }),
-  role: z.enum(['student', 'admin']).default('student'),
+  semester: z.coerce.number().positive({ message: 'Semester must be a positive number' })
 });
 
 type SignupFormData = z.infer<typeof signupSchema>;
@@ -40,17 +39,24 @@ const SignUp: React.FC = () => {
     formState: { errors },
     setError,
   } = useForm<SignupFormData>({
-    resolver: zodResolver(signupSchema),
-    defaultValues: {
-      role: 'student',
-    },
+    // Force the resolver to work with our types
+    resolver: zodResolver(signupSchema)
   });
 
   const onSubmit = async (data: SignupFormData) => {
     setIsLoading(true);
     
     try {
-      const response = await authService.register(data as RegisterData);
+      // Ensure data has the correct type for RegisterData
+      const registerData: RegisterData = {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        department: data.department,
+        semester: data.semester
+      };
+      
+      const response = await authService.register(registerData);
       
       // Update auth context with the user data
       login(response.token, response.user);
@@ -60,10 +66,27 @@ const SignUp: React.FC = () => {
       
       // Redirect to home or dashboard
       navigate('/');
-    } catch (error: any) {
+    } catch (error: unknown) {
+      // Define a type for the backend error response
+      interface BackendError {
+        param: string;
+        msg: string;
+      }
+      
+      interface ErrorResponse {
+        response?: { 
+          data: { 
+            message: string; 
+            errors?: BackendError[]
+          } 
+        }
+      }
+      
       // Handle different error types
-      if (error.response && error.response.data) {
-        const { message, errors: backendErrors } = error.response.data;
+      const axiosError = error as ErrorResponse;
+      
+      if (axiosError.response && axiosError.response.data) {
+        const { message, errors: backendErrors } = axiosError.response.data;
         
         // Handle duplicate email error
         if (message === 'User already exists with this email') {
@@ -74,11 +97,19 @@ const SignUp: React.FC = () => {
         } 
         // Handle validation errors from backend
         else if (backendErrors) {
-          backendErrors.forEach((err: any) => {
-            setError(err.param as keyof SignupFormData, {
-              type: 'manual',
-              message: err.msg,
-            });
+          backendErrors.forEach((err: BackendError) => {
+            // Make sure the param is a valid key in our form
+            if (err.param === 'name' || 
+                err.param === 'email' || 
+                err.param === 'password' || 
+                err.param === 'department' || 
+                err.param === 'semester') {
+              
+              setError(err.param, {
+                type: 'manual',
+                message: err.msg,
+              });
+            }
           });
         } else {
           toast.error(message || 'Failed to create account');
@@ -98,7 +129,10 @@ const SignUp: React.FC = () => {
       footerText="Already have an account?"
       footerLink={{ text: "Sign in", to: "/auth/login" }}
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit((data) => {
+        // Use the data with explicit typing
+        return onSubmit(data as unknown as SignupFormData);
+      })} className="space-y-6">
         <div>
           <Label htmlFor="name">
             Full Name
@@ -199,22 +233,7 @@ const SignUp: React.FC = () => {
           )}
         </div>
 
-        {/* <div>
-          <Label htmlFor="role">Role</Label>
-          <div className="mt-1">
-            <select
-              id="role"
-              {...register('role')}
-              className="flex h-10 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              <option value="student">Student</option>
-              <option value="admin">Admin</option>
-            </select>
-          </div>
-          {errors.role && (
-            <p className="mt-1 text-sm text-red-600">{errors.role.message}</p>
-          )}
-        </div> */}
+      
 
         <div className="pt-2">
           <Button

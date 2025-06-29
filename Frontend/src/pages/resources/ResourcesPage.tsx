@@ -7,6 +7,10 @@ import { Button } from '@/components/ui/button';
 import { SearchParams } from '@/services/resource';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { string } from 'zod';
+
+
+
 
 const ResourcesPage: React.FC = () => {
   const { user } = useAuth();
@@ -101,7 +105,7 @@ const ResourcesPage: React.FC = () => {
   const handleUpvote = async (id: string) => {
     // If user sorts by upvotes, we need to refresh the list to get the updated order
     if (searchParams.get('sortBy') === 'upvotes') {
-      fetchResources(currentParams);
+      fetchResources(currentSearchParams);
     }
     // Otherwise, each ResourceCard handles its own upvote state
   };

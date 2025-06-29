@@ -54,7 +54,7 @@ const ResourceUploadForm: React.FC = () => {
     if (name === 'semester') {
       setFormData((prev) => ({ 
         ...prev, 
-        [name]: value === '' ? '' : parseInt(value, 10) 
+        [name]: value === '' ? 1 : parseInt(value, 10) 
       }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
@@ -126,7 +126,7 @@ const ResourceUploadForm: React.FC = () => {
     e.preventDefault();
     
     // Validate required fields
-    const validationErrors = [];
+    const validationErrors: string[] = [];
     
     console.log('Form data before submission:', formData)
     console.log(typeof(formData.title))

@@ -4,33 +4,29 @@ import { AuthRequest } from '../middlewares/auth';
 
 export const createResource = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
-    console.log('Request body:', req.body);
-    console.log('Request file:', req.file);
-    
     if (!req.user) {
       res.status(401).json({ message: 'Authentication required' });
       return;
     }
-    
-    // req.file comes from multer-s3
+
     if (!req.file) {
       res.status(400).json({ message: 'No file uploaded' });
       return;
     }
-    
+
     const file = req.file as Express.MulterS3.File;
-    
-    // Parse tags if provided
-    let tags: string[] = [];
-    if (req.body.tags) {
+
+    const tags: string[] = (() => {
+      if (!req.body.tags) return [];
       if (typeof req.body.tags === 'string') {
-        tags = req.body.tags.split(',').map((tag: string) => tag.trim());
-      } else if (Array.isArray(req.body.tags)) {
-        tags = req.body.tags;
+        return req.body.tags.split(',').map((tag:String)=> tag.trim());
       }
-    }
-    
-    // Create new resource
+      if (Array.isArray(req.body.tags)) {
+        return req.body.tags.map((tag:String) => tag.trim());
+      }
+      return [];
+    })();
+
     const resource = new Resource({
       title: req.body.title,
       description: req.body.description || '',
@@ -38,34 +34,31 @@ export const createResource = async (req: AuthRequest, res: Response, next: Next
       department: req.body.department,
       semester: req.body.semester,
       teacher: req.body.teacher || '',
-      tags: tags,
-      fileUrl: file.location, // S3 URL from multer-s3
+      tags,
+      fileUrl: file.location,
       fileType: file.mimetype,
       uploadedBy: req.user._id,
     });
-    
-    // Save to database
+
     const savedResource = await resource.save();
-    
-    // Return success response with populated user details
+
     const populatedResource = await Resource.findById(savedResource._id)
       .populate('uploadedBy', 'name email department semester');
-    
+
     res.status(201).json({
       message: 'Resource created successfully',
       resource: populatedResource,
     });
-  } catch (error:any) {
+
+  } catch (error: any) {
     console.error('Error creating resource:', error);
-    
-    // Handle specific errors
+
     if (error.name === 'ValidationError') {
-      // Mongoose validation error
       const errors = Object.values(error.errors).map((err: any) => err.message);
       res.status(400).json({ message: 'Validation error', errors });
       return;
     }
-    
+
     next(error);
   }
 };
@@ -217,8 +210,8 @@ export const updateResource = async (req: AuthRequest, res: Response, next: Next
       return;
     }
     
-    // Check ownership or admin status
-    if (resource.uploadedBy.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+    // Check ownership
+    if (resource.uploadedBy.toString() !== req.user._id.toString()) {
       res.status(403).json({ message: 'Not authorized to update this resource' });
       return;
     }
@@ -283,8 +276,8 @@ export const deleteResource = async (req: AuthRequest, res: Response, next: Next
       return;
     }
     
-    // Check ownership or admin status
-    if (resource.uploadedBy.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+    // Check ownership
+    if (resource.uploadedBy.toString() !== req.user._id.toString()) {
       res.status(403).json({ message: 'Not authorized to delete this resource' });
       return;
     }

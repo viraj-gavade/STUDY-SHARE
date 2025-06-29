@@ -1,11 +1,13 @@
-import toast from 'react-hot-toast';
+import toast, { ToastPosition } from 'react-hot-toast';
+import * as React from 'react';
 
 type ToastType = 'success' | 'error' | 'loading' | 'custom';
 
+// Custom options interface that extends the base options from react-hot-toast
 interface ToastOptions {
   duration?: number;
-  icon?: string | JSX.Element;
-  position?: 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
+  icon?: string | React.ReactElement | null;
+  position?: ToastPosition;
 }
 
 /**
@@ -20,7 +22,7 @@ const Toast = {
   success: (message: string, options?: ToastOptions) => {
     toast.success(message, {
       duration: options?.duration || 3000,
-      icon: options?.icon || '✅',
+      icon: options?.icon !== undefined ? options.icon : '✅',
       position: options?.position || 'top-right',
     });
   },

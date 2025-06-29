@@ -5,7 +5,6 @@ interface User {
   id: string;
   name: string;
   email: string;
-  role: 'student' | 'admin';
   department: string;
   semester: number;
 }

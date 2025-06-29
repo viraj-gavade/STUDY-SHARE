@@ -10,10 +10,6 @@ export const registerValidation: ValidationChain[] = [
   check('password', 'Password must be at least 6 characters long').isLength({ min: 6 }),
   check('department', 'Department is required').not().isEmpty(),
   check('semester', 'Semester must be a number').isNumeric(),
-  check('role')
-    .optional()
-    .isIn(['student', 'admin'])
-    .withMessage('Role must be either student or admin'),
 ];
 
 /**

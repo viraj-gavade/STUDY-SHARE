@@ -24,7 +24,7 @@ const DashboardPage: React.FC = () => {
         setError(null);
       } catch (err) {
         console.error('Error fetching user resources:', err);
-        setError(err);
+        setError(err instanceof Error ? err : new Error('Failed to fetch resources'));
       } finally {
         setLoading(false);
       }

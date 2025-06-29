@@ -9,7 +9,6 @@ export interface AuthRequest extends Request {
     _id: Types.ObjectId;
     email: string;
     name?: string;
-    role?: string;
   };
 }
 
@@ -45,8 +44,7 @@ export const authMiddleware = async (
     req.user = {
       _id: user._id,
       email: user.email,
-      name: user.name,
-      role: user.role
+      name: user.name
     };
     
     next();

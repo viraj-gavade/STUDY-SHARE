@@ -6,7 +6,6 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
-  role: 'student' | 'admin';
   department: string;
   semester: number;
   myUploads: Types.ObjectId[];
@@ -29,11 +28,6 @@ const UserSchema = new Schema<IUser>(
     password: {
       type: String,
       required: true,
-    },
-    role: {
-      type: String,
-      enum: ['student', 'admin'],
-      default: 'student',
     },
     department: {
       type: String,
