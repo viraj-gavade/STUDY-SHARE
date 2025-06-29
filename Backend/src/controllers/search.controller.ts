@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import Resource from '../models/resource.model';
+console.log("✅ resource.routes.ts loaded");
 
 /**
  * Search for resources based on given query parameters
