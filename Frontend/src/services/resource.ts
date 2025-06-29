@@ -6,7 +6,6 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
     // Ensure referrer policy is set for all requests
-    'Referrer-Policy': 'strict-origin-when-cross-origin'
   }
 });
 

@@ -5,9 +5,8 @@ const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
   withCredentials: true, // Include cookies with cross-origin requests
   headers: {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json'
     // Ensure referrer policy is set for all requests
-    'Referrer-Policy': 'strict-origin-when-cross-origin'
   },
 });
 
