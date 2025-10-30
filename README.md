@@ -1,284 +1,753 @@
-# 📚 StudyShare - MERN + S3 App to Share Study Resources ✨
+# 📚 StudyShare
 
-StudyShare is a full-stack web application that allows students to upload, share, and discover academic resources. Built with the MERN stack (MongoDB, Express, React, Node.js) and integrated with AWS S3 for file storage, it provides a centralized platform for educational content sharing.
+<div align="center">
+
+**A Modern Platform for Academic Resource Sharing**
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black)](https://reactjs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![AWS S3](https://img.shields.io/badge/AWS_S3-FF9900?logo=amazon-aws&logoColor=white)](https://aws.amazon.com/s3/)
+
+[🌐 Live Demo](https://study-share-frontend.onrender.com) • [📖 Documentation](#-api-documentation) • [🐛 Report Bug](https://github.com/yourusername/study-share/issues) • [✨ Request Feature](https://github.com/yourusername/study-share/issues)
+
+</div>
+
+---
+
+## 📋 Table of Contents
+
+- [Overview](#-overview)
+- [Key Features](#-key-features)
+- [Tech Stack](#-tech-stack)
+- [Live Deployment](#-live-deployment)
+- [Getting Started](#-getting-started)
+- [API Documentation](#-api-documentation)
+- [Project Structure](#-project-structure)
+- [Screenshots](#-screenshots)
+- [Contributing](#-contributing)
+- [License](#-license)
+
+---
+
+## 🎯 Overview
+
+StudyShare is a comprehensive full-stack web application designed to revolutionize how students share and discover academic resources. Built with the MERN stack and powered by AWS S3, it provides a secure, scalable, and user-friendly platform for educational content collaboration.
+
+### 🌟 Why StudyShare?
+
+- **📤 Seamless Sharing**: Upload and organize study materials with rich metadata
+- **🔍 Smart Discovery**: Advanced search and filtering to find exactly what you need
+- **👥 Community Driven**: Upvote, comment, and engage with educational content
+- **🔒 Secure & Reliable**: JWT authentication and AWS S3 for enterprise-grade security
+- **⚡ Lightning Fast**: Built with modern tech stack for optimal performance
+
+---
+
+## ✨ Key Features
+
+### 🔐 **Authentication & Security**
+- ✅ Secure user registration with email verification
+- ✅ JWT-based authentication system
+- ✅ Password reset via email with secure tokens
+- ✅ Protected routes and role-based access control
+
+### 📁 **Resource Management**
+- ✅ Multi-format file uploads (PDF, DOCX, PPTX, images)
+- ✅ Rich metadata tagging (subject, department, semester)
+- ✅ Intelligent categorization system
+- ✅ Full CRUD operations on resources
+- ✅ Cloud storage with AWS S3 integration
+
+### 🔎 **Advanced Search & Discovery**
+- ✅ Full-text search across resources
+- ✅ Filter by department, semester, and file type
+- ✅ Sort by recency, popularity, or engagement
+- ✅ Tag-based discovery system
+
+### 👥 **Social Engagement**
+- ✅ Upvote system to highlight quality content
+- ✅ Threaded comment discussions
+- ✅ User profiles and contribution tracking
+- ✅ Activity dashboard
+
+### 📊 **User Dashboard**
+- ✅ Personal profile management
+- ✅ Upload history and analytics
+- ✅ Favorite resources collection
+- ✅ Activity timeline
+
+---
+
+## 🛠️ Tech Stack
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+### **Backend**
+
+| Technology | Purpose |
+|------------|---------|
+| ![Node.js](https://img.shields.io/badge/-Node.js-339933?logo=node.js&logoColor=white) | Runtime environment |
+| ![Express](https://img.shields.io/badge/-Express-000000?logo=express&logoColor=white) | Web framework |
+| ![TypeScript](https://img.shields.io/badge/-TypeScript-007ACC?logo=typescript&logoColor=white) | Type safety |
+| ![MongoDB](https://img.shields.io/badge/-MongoDB-47A248?logo=mongodb&logoColor=white) | Database |
+| ![Mongoose](https://img.shields.io/badge/-Mongoose-880000?logoColor=white) | ODM |
+| ![JWT](https://img.shields.io/badge/-JWT-000000?logo=json-web-tokens&logoColor=white) | Authentication |
+| ![AWS S3](https://img.shields.io/badge/-AWS_S3-FF9900?logo=amazon-aws&logoColor=white) | File storage |
+
+</td>
+<td width="50%" valign="top">
+
+### **Frontend**
+
+| Technology | Purpose |
+|------------|---------|
+| ![React](https://img.shields.io/badge/-React-61DAFB?logo=react&logoColor=black) | UI library |
+| ![TypeScript](https://img.shields.io/badge/-TypeScript-007ACC?logo=typescript&logoColor=white) | Type safety |
+| ![Vite](https://img.shields.io/badge/-Vite-646CFF?logo=vite&logoColor=white) | Build tool |
+| ![TailwindCSS](https://img.shields.io/badge/-Tailwind-06B6D4?logo=tailwind-css&logoColor=white) | Styling |
+| ![React Router](https://img.shields.io/badge/-React_Router-CA4245?logo=react-router&logoColor=white) | Routing |
+| ![Axios](https://img.shields.io/badge/-Axios-5A29E4?logo=axios&logoColor=white) | HTTP client |
+| ![Framer Motion](https://img.shields.io/badge/-Framer_Motion-0055FF?logo=framer&logoColor=white) | Animations |
+
+</td>
+</tr>
+</table>
+
+---
 
 ## 🌐 Live Deployment
 
-StudyShare is deployed on Render using a multi-service architecture, despite being developed as a monorepo:
+StudyShare is deployed on **Render** using a microservices architecture:
 
-- **🚀 Frontend:** [https://study-share-frontend.onrender.com](https://study-share-frontend.onrender.com)
-- **⚙️ Backend API:** [https://study-share-backend.onrender.com/api](https://study-share.onrender.com)
+| Service | URL | Status |
+|---------|-----|--------|
+| 🎨 **Frontend** | [study-share-frontend.onrender.com](https://study-share-frontend.onrender.com) | ![Status](https://img.shields.io/badge/status-live-success) |
+| ⚙️ **Backend API** | [study-share-backend.onrender.com/api](https://study-share-backend.onrender.com/api) | ![Status](https://img.shields.io/badge/status-live-success) |
 
-### Deployment Architecture
+### 🏗️ Deployment Architecture
 
-Despite the project being structured as a monorepo, we've deployed it as two separate services on Render:
+Despite being developed as a **monorepo**, the application is deployed as two independent services:
 
-1. **Frontend Service**:
-   - Deployed from the `/Frontend` directory
-   - Built with Vite and served as static files
-   - Connected to the backend API using environment variables
+```mermaid
+graph LR
+    A[User] --> B[Frontend - Render]
+    B --> C[Backend API - Render]
+    C --> D[MongoDB Atlas]
+    C --> E[AWS S3]
+    
+    style A fill:#61DAFB
+    style B fill:#646CFF
+    style C fill:#339933
+    style D fill:#47A248
+    style E fill:#FF9900
+```
 
-2. **Backend Service**:
-   - Deployed from the `/Backend` directory
-   - Running Node.js with Express
-   - Connected to MongoDB Atlas and AWS S3 for data and file storage
-   - Uses environment variables for configuration
+#### Frontend Service Configuration
+```yaml
+Build Command: npm install && npm run build
+Publish Directory: dist
+Environment Variables:
+  VITE_API_URL: https://study-share-backend.onrender.com/api
+```
 
-This separation allows independent scaling and deployment of each service while maintaining a unified development experience in the monorepo.
+#### Backend Service Configuration
+```yaml
+Build Command: npm install && npm run build
+Start Command: node dist/server.js
+Environment Variables:
+  PORT: 10000
+  MONGODB_URI: <mongodb_connection_string>
+  JWT_SECRET: <jwt_secret>
+  AWS_ACCESS_KEY_ID: <aws_key>
+  AWS_SECRET_ACCESS_KEY: <aws_secret>
+  AWS_REGION: <aws_region>
+  S3_BUCKET_NAME: <bucket_name>
+  FRONTEND_URL: https://study-share-frontend.onrender.com
+```
 
-### Render Configuration
+### ⚠️ Known Issues
 
-#### Frontend Service
-- **Build Command**: `npm install && npm run build`
-- **Publish Directory**: `dist`
-- **Environment Variables**:
-  - `VITE_API_URL=https://study-share-backend.onrender.com/api`
+<details>
+<summary><b>Express 5.x Path-to-RegExp Error</b></summary>
 
-#### Backend Service
-- **Build Command**: `npm install && npm run build`
-- **Start Command**: `node dist/server.js`
-- **Environment Variables**:
-  - `PORT=10000`
-  - `MONGODB_URI=your_mongodb_connection_string`
-  - `JWT_SECRET=your_jwt_secret`
-  - `AWS_ACCESS_KEY_ID=your_aws_key`
-  - `AWS_SECRET_ACCESS_KEY=your_aws_secret`
-  - `AWS_REGION=your_aws_region`
-  - `S3_BUCKET_NAME=your_bucket_name`
-  - `FRONTEND_URL=https://study-share-frontend.onrender.com`
-
-### Known Issues and Troubleshooting
-
-When using Express.js 5.x, you may encounter a `path-to-regexp` error with message:
+If you encounter this error:
 ```
 TypeError: Missing parameter name at 1: https://git.new/pathToRegexpError
 ```
 
-This is related to changes in how Express 5.x handles route paths. Make sure all your routes follow the pattern documentation in the [Express 5 migration guide](https://expressjs.com/en/guide/migrating-5.html#path-syntax).
+**Solution**: Ensure all routes follow Express 5.x path syntax. See the [Express 5 Migration Guide](https://expressjs.com/en/guide/migrating-5.html#path-syntax).
+</details>
 
-## ✨ Features
+---
 
-- **🔐 User Authentication**
-  - 📝 Register with email, password, department, and semester
-  - 🚪 Login/Logout functionality
-  - 🔑 Password reset via email verification
-  - 🛡️ Protected routes and JWT-based authentication
-
-- **📁 Resource Management**
-  - 📤 Upload various file types (PDF, DOCX, PPTX, images, etc.)
-  - 📋 Add metadata (title, description, subject, department, semester)
-  - 🏷️ Tag resources for better discoverability
-  - 🔍 View detailed resource information
-
-- **👥 Social Features**
-  - 👍 Upvote/remove upvote on resources
-  - 💬 Comment on resources
-  - 👤 User profiles and dashboards
-
-- **🔎 Search & Discovery**
-  - 🔍 Search resources by text, department, semester, or file type
-  - 📊 Sort by recency, popularity (upvotes), or comment count
-  - 🔢 Filter resources by various criteria
-
-- **📊 User Dashboard**
-  - 👤 View and manage personal profile
-  - 📚 Track uploaded resources
-  - ✏️ Update profile information
-
-## 🛠️ Tech Stack
-
-### 🖥️ Backend
-- **📦 Node.js** with **🚂 Express.js** framework
-- **📘 TypeScript** for type safety
-- **🍃 MongoDB** with **🔌 Mongoose** for database
-- **🔑 JWT** for authentication
-- **📤 Multer** & **☁️ multer-s3** for file uploads
-- **🌐 AWS SDK** for S3 integration
-- **🔒 Bcrypt** for password hashing
-- **📧 Nodemailer** for email services
-
-### 🎨 Frontend
-- **⚛️ React** with **📘 TypeScript**
-- **⚡ Vite** for build tooling
-- **🧭 React Router** for navigation
-- **💅 TailwindCSS** for styling
-- **🧩 shadcn-ui** components
-- **🔄 Axios** for API requests
-- **📝 React Hook Form** for form handling
-- **✅ Zod** for validation
-- **✨ Framer Motion** for animations
-- **🍞 React Hot Toast** for notifications
-
-## 🔌 API Endpoints
-
-### 🔐 Authentication Routes
-- `🔑 POST /api/auth/register` - Register a new user
-- `🔓 POST /api/auth/login` - Login and get JWT token
-- `📧 POST /api/auth/forgot-password` - Request password reset
-- `🔏 POST /api/auth/reset-password` - Reset password with code
-
-### 👤 User Routes
-- `👀 GET /api/users/me` - Get current user profile
-- `✏️ PATCH /api/users/me` - Update current user profile
-
-### 📚 Resource Routes
-- `📤 POST /api/resources` - Upload a new resource
-- `📋 GET /api/resources` - Get all resources
-- `🔍 GET /api/resources/search` - Search resources with filters
-- `👤 GET /api/resources/user` - Get resources uploaded by authenticated user
-- `📄 GET /api/resources/:id` - Get a specific resource by ID
-- `👍 POST /api/resources/:id/upvote` - Upvote/remove upvote on a resource
-- `💬 POST /api/resources/:id/comment` - Comment on a resource
-- `✏️ PUT /api/resources/:id` - Update a resource's metadata
-- `🗑️ DELETE /api/resources/:id` - Delete a resource
-
-## 🚀 Setup Instructions
+## 🚀 Getting Started
 
 ### 📋 Prerequisites
-- 📦 Node.js (v16+ recommended)
-- 🍃 MongoDB (local or Atlas)
-- ☁️ AWS account with S3 bucket
 
-### 🖥️ Backend Setup
+Before you begin, ensure you have the following installed:
 
-1. Clone the repository
-   ```bash
-   git clone <repository-url>
-   cd STUDY-SHARE/Backend
+- **Node.js** (v16 or higher) - [Download](https://nodejs.org/)
+- **MongoDB** (local or Atlas) - [Setup Guide](https://www.mongodb.com/docs/manual/installation/)
+- **AWS Account** with S3 access - [Create Account](https://aws.amazon.com/)
+- **Git** - [Download](https://git-scm.com/)
+
+### ⚡ Quick Start
+
+#### 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/study-share.git
+cd study-share
+```
+
+#### 2️⃣ Backend Setup
+
+```bash
+# Navigate to backend directory
+cd Backend
+
+# Install dependencies
+npm install
+
+# Create environment file
+cp .env.example .env
+
+# Configure your .env file (see configuration below)
+nano .env
+
+# Start development server
+npm run dev
+```
+
+**Backend Environment Variables** (`.env`):
+
+```env
+# Server Configuration
+PORT=5000
+NODE_ENV=development
+
+# Database
+MONGODB_URI=mongodb://localhost:27017/studyshare
+# Or for MongoDB Atlas:
+# MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/studyshare
+
+# Frontend URL
+FRONTEND_URL=http://localhost:5173
+
+# JWT Configuration
+JWT_SECRET=your-super-secret-jwt-key-here
+JWT_EXPIRY=7d
+
+# AWS S3 Configuration
+AWS_ACCESS_KEY_ID=your-aws-access-key-id
+AWS_SECRET_ACCESS_KEY=your-aws-secret-access-key
+AWS_REGION=us-east-1
+AWS_S3_BUCKET=your-s3-bucket-name
+
+# Email Configuration (for password reset)
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-app-specific-password
+EMAIL_FROM=noreply@studyshare.com
+```
+
+#### 3️⃣ Frontend Setup
+
+```bash
+# Open a new terminal and navigate to frontend directory
+cd Frontend
+
+# Install dependencies
+npm install
+
+# Create environment file
+cp .env.example .env
+
+# Configure your .env file
+nano .env
+
+# Start development server
+npm run dev
+```
+
+**Frontend Environment Variables** (`.env`):
+
+```env
+# API Configuration
+VITE_API_URL=http://localhost:5000/api
+VITE_APP_ENV=development
+
+# For Production (Render deployment)
+# VITE_API_URL=https://study-share-backend.onrender.com/api
+# VITE_APP_ENV=production
+```
+
+#### 4️⃣ Access the Application
+
+Open your browser and navigate to:
+- **Frontend**: http://localhost:5173
+- **Backend API**: http://localhost:5000/api
+
+---
+
+## ☁️ AWS S3 Configuration
+
+### Setting Up Your S3 Bucket
+
+1. **Create an S3 Bucket**
+   - Login to [AWS Console](https://console.aws.amazon.com/)
+   - Navigate to S3 service
+   - Click "Create bucket"
+   - Choose a unique bucket name
+   - Select your preferred region
+   - Uncheck "Block all public access" (we'll use bucket policy for security)
+
+2. **Configure CORS Policy**
+
+   Add this CORS configuration to your bucket:
+
+   ```json
+   [
+     {
+       "AllowedHeaders": ["*"],
+       "AllowedMethods": ["GET", "PUT", "POST", "DELETE", "HEAD"],
+       "AllowedOrigins": [
+         "http://localhost:5173",
+         "https://study-share-frontend.onrender.com"
+       ],
+       "ExposeHeaders": ["ETag"],
+       "MaxAgeSeconds": 3000
+     }
+   ]
    ```
 
-2. Install dependencies
-   ```bash
-   npm install
+3. **Set Bucket Policy**
+
+   ```json
+   {
+     "Version": "2012-10-17",
+     "Statement": [
+       {
+         "Sid": "PublicReadGetObject",
+         "Effect": "Allow",
+         "Principal": "*",
+         "Action": ["s3:GetObject"],
+         "Resource": ["arn:aws:s3:::your-bucket-name/*"]
+       }
+     ]
+   }
    ```
 
-3. Create .env file (copy from .env.example)
-   ```bash
-   cp .env.example .env
-   ```
+4. **Create IAM User**
+   - Navigate to IAM service
+   - Create a new user with programmatic access
+   - Attach policy: `AmazonS3FullAccess`
+   - Save the Access Key ID and Secret Access Key
 
-4. Configure environment variables in .env
-   ```
-   PORT=5000
-   NODE_ENV=development
-   MONGODB_URI=your_mongodb_connection_string
-   FRONTEND_URL=http://localhost:5173
-   JWT_SECRET=your_jwt_secret
-   JWT_EXPIRY=7d
-   AWS_ACCESS_KEY_ID=your_aws_access_key
-   AWS_SECRET_ACCESS_KEY=your_aws_secret_key
-   AWS_REGION=your_aws_region
-   AWS_S3_BUCKET=your_bucket_name
-   EMAIL_HOST=smtp.example.com
-   EMAIL_PORT=587
-   EMAIL_USER=your_email@example.com
-   EMAIL_PASS=your_email_password
-   EMAIL_FROM=noreply@studyshare.com
-   ```
+---
 
-5. Start the development server
-   ```bash
-   npm run dev
-   ```
+## 📖 API Documentation
 
-### 🎨 Frontend Setup
+### Base URL
+```
+Development: http://localhost:5000/api
+Production: https://study-share-backend.onrender.com/api
+```
 
-1. Navigate to the frontend directory
-   ```bash
-   cd ../Frontend
-   ```
+### 🔐 Authentication Endpoints
 
-2. Install dependencies
-   ```bash
-   npm install
-   ```
+<details>
+<summary><b>POST /auth/register</b> - Register a new user</summary>
 
-3. Create .env file (copy from .env.example)
-   ```bash
-   cp .env.example .env
-   ```
-
-4. Configure environment variables in .env
-   ```
-   # For local development
-   VITE_API_URL=http://localhost:5000/api
-   VITE_APP_ENV=development
-   
-   # For production (when deployed on Render)
-   # VITE_API_URL=https://study-share-backend.onrender.com/api
-   # VITE_APP_ENV=production
-   ```
-
-5. Start the development server
-   ```bash
-   npm run dev
-   ```
-
-## ☁️ AWS S3 Setup
-
-1. 📦 Create an S3 bucket in your AWS account
-2. 🔄 Configure CORS policy for your bucket to allow uploads from your frontend
-3. 👤 Create an IAM user with S3 permissions
-4. 🔑 Add your AWS credentials to the backend .env file
-
-Example S3 bucket policy (from `s3-bucket-policy.json`):
+**Request Body:**
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "PublicReadGetObject",
-            "Effect": "Allow",
-            "Principal": "*",
-            "Action": [
-                "s3:GetObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::your-bucket-name/*"
-            ]
-        }
-    ]
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "securePassword123",
+  "department": "Computer Science",
+  "semester": 3
 }
 ```
 
+**Response:**
+```json
+{
+  "success": true,
+  "message": "User registered successfully",
+  "data": {
+    "user": {
+      "id": "user_id",
+      "name": "John Doe",
+      "email": "john@example.com"
+    },
+    "token": "jwt_token"
+  }
+}
+```
+</details>
+
+<details>
+<summary><b>POST /auth/login</b> - User login</summary>
+
+**Request Body:**
+```json
+{
+  "email": "john@example.com",
+  "password": "securePassword123"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "user": {
+      "id": "user_id",
+      "name": "John Doe",
+      "email": "john@example.com"
+    },
+    "token": "jwt_token"
+  }
+}
+```
+</details>
+
+<details>
+<summary><b>POST /auth/forgot-password</b> - Request password reset</summary>
+
+**Request Body:**
+```json
+{
+  "email": "john@example.com"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Password reset code sent to email"
+}
+```
+</details>
+
+### 📚 Resource Endpoints
+
+<details>
+<summary><b>POST /resources</b> - Upload a resource (🔒 Protected)</summary>
+
+**Request:** Multipart form-data
+```
+file: [File]
+title: "Introduction to Algorithms"
+description: "Comprehensive guide to algorithms"
+subject: "Data Structures"
+department: "Computer Science"
+semester: 3
+tags: ["algorithms", "data structures", "tutorial"]
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "id": "resource_id",
+    "title": "Introduction to Algorithms",
+    "fileUrl": "https://s3.amazonaws.com/...",
+    "uploadedBy": {
+      "id": "user_id",
+      "name": "John Doe"
+    }
+  }
+}
+```
+</details>
+
+<details>
+<summary><b>GET /resources</b> - Get all resources</summary>
+
+**Query Parameters:**
+- `page`: Page number (default: 1)
+- `limit`: Items per page (default: 10)
+- `sort`: Sort by (recent, popular, comments)
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "resources": [...],
+    "pagination": {
+      "total": 100,
+      "page": 1,
+      "pages": 10
+    }
+  }
+}
+```
+</details>
+
+<details>
+<summary><b>GET /resources/search</b> - Search resources</summary>
+
+**Query Parameters:**
+- `q`: Search query
+- `department`: Filter by department
+- `semester`: Filter by semester
+- `fileType`: Filter by file type
+- `tags`: Filter by tags (comma-separated)
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "resources": [...],
+    "count": 25
+  }
+}
+```
+</details>
+
+<details>
+<summary><b>POST /resources/:id/upvote</b> - Upvote a resource (🔒 Protected)</summary>
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "upvoted": true,
+    "upvoteCount": 42
+  }
+}
+```
+</details>
+
+<details>
+<summary><b>POST /resources/:id/comment</b> - Add a comment (🔒 Protected)</summary>
+
+**Request Body:**
+```json
+{
+  "text": "Great resource! Very helpful."
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "comment": {
+      "id": "comment_id",
+      "text": "Great resource! Very helpful.",
+      "user": {
+        "name": "John Doe"
+      },
+      "createdAt": "2025-01-30T10:00:00Z"
+    }
+  }
+}
+```
+</details>
+
+### 👤 User Endpoints
+
+<details>
+<summary><b>GET /users/me</b> - Get current user profile (🔒 Protected)</summary>
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "user": {
+      "id": "user_id",
+      "name": "John Doe",
+      "email": "john@example.com",
+      "department": "Computer Science",
+      "semester": 3,
+      "resourcesUploaded": 15,
+      "createdAt": "2025-01-01T00:00:00Z"
+    }
+  }
+}
+```
+</details>
+
+---
+
 ## 📁 Project Structure
 
-### 🖥️ Backend
-- `📄 src/app.ts` - Express app configuration
-- `🚀 src/server.ts` - Application entry point
-- `🎮 src/controllers/` - API endpoint handlers
-- `🏗️ src/models/` - MongoDB schema definitions
-- `🛣️ src/routes/` - API route definitions
-- `⚙️ src/middlewares/` - Custom middleware (auth, validation, file upload)
-- `⚙️ src/config/` - Configuration files (AWS, etc.)
-- `🔧 src/utils/` - Utility functions (JWT, email)
+### Backend Structure
+```
+Backend/
+├── src/
+│   ├── app.ts                 # Express app configuration
+│   ├── server.ts              # Application entry point
+│   ├── config/
+│   │   ├── aws.ts            # AWS S3 configuration
+│   │   └── database.ts       # MongoDB connection
+│   ├── controllers/
+│   │   ├── auth.controller.ts
+│   │   ├── resource.controller.ts
+│   │   └── user.controller.ts
+│   ├── models/
+│   │   ├── User.ts           # User schema
+│   │   ├── Resource.ts       # Resource schema
+│   │   └── Comment.ts        # Comment schema
+│   ├── routes/
+│   │   ├── auth.routes.ts
+│   │   ├── resource.routes.ts
+│   │   └── user.routes.ts
+│   ├── middlewares/
+│   │   ├── auth.middleware.ts    # JWT verification
+│   │   ├── upload.middleware.ts  # Multer S3 config
+│   │   └── validation.middleware.ts
+│   └── utils/
+│       ├── jwt.ts            # JWT utilities
+│       ├── email.ts          # Email service
+│       └── validators.ts     # Input validators
+├── package.json
+└── tsconfig.json
+```
 
-### 🎨 Frontend
-- `🧩 src/components/` - Reusable UI components
-- `📄 src/pages/` - Application pages and routes
-- `🔄 src/context/` - React context providers
-- `🪝 src/hooks/` - Custom React hooks
-- `🔌 src/services/` - API service integrations
-- `🔧 src/utils/` - Utility functions
+### Frontend Structure
+```
+Frontend/
+├── src/
+│   ├── main.tsx              # Application entry
+│   ├── App.tsx               # Root component
+│   ├── components/
+│   │   ├── ui/               # shadcn-ui components
+│   │   ├── layout/
+│   │   │   ├── Navbar.tsx
+│   │   │   └── Footer.tsx
+│   │   └── resources/
+│   │       ├── ResourceCard.tsx
+│   │       ├── ResourceList.tsx
+│   │       └── UploadForm.tsx
+│   ├── pages/
+│   │   ├── Home.tsx
+│   │   ├── Dashboard.tsx
+│   │   ├── Resources.tsx
+│   │   ├── ResourceDetail.tsx
+│   │   ├── Upload.tsx
+│   │   └── Auth/
+│   │       ├── Login.tsx
+│   │       └── Register.tsx
+│   ├── context/
+│   │   └── AuthContext.tsx   # Authentication state
+│   ├── hooks/
+│   │   ├── useAuth.ts
+│   │   └── useResources.ts
+│   ├── services/
+│   │   ├── api.ts            # Axios instance
+│   │   ├── auth.service.ts
+│   │   └── resource.service.ts
+│   └── utils/
+│       ├── constants.ts
+│       └── helpers.ts
+├── package.json
+├── vite.config.ts
+└── tailwind.config.js
+```
+
+---
 
 ## 📸 Screenshots
 
+<div align="center">
+
 ### 🏠 Home Page
-![Home Page](/Frontend/src/assets/homepage)
+![Home Page](Frontend/src/assets/homepage.png)
+*Clean, modern landing page with featured resources*
 
-### 📊 Dashboard
-![Dashboard](/Frontend/src/assets/Dashboard.png)
+### 📊 User Dashboard
+![Dashboard](Frontend/src/assets/Dashboard.png)
+*Comprehensive dashboard with upload history and analytics*
 
-### 📤 Upload Resources
-![Upload Resources](/Frontend/src/assets/Uploadpage.png)
+### 📤 Upload Interface
+![Upload Resources](Frontend/src/assets/Uploadpage.png)
+*Intuitive file upload with rich metadata options*
 
-### 🔍 Resources Page
-![Resources Page](/Frontend/src/assets/Resourcepage.png)
+### 🔍 Resources Listing
+![Resources Page](Frontend/src/assets/Resourcepage.png)
+*Advanced search and filtering capabilities*
 
 ### 📄 Resource Details
-![Resource Details](/Frontend/src/assets/singleResourcepage.png)
+![Resource Details](Frontend/src/assets/singleResourcepage.png)
+*Detailed view with comments and engagement options*
+
+</div>
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions from the community! Here's how you can help:
+
+### How to Contribute
+
+1. **Fork the repository**
+   ```bash
+   git clone https://github.com/yourusername/study-share.git
+   ```
+
+2. **Create a feature branch**
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+
+3. **Make your changes**
+   - Write clean, documented code
+   - Follow existing code style
+   - Add tests if applicable
+
+4. **Commit your changes**
+   ```bash
+   git commit -m 'Add some amazing feature'
+   ```
+
+5. **Push to the branch**
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+
+6. **Open a Pull Request**
+
+### Development Guidelines
+
+- Follow TypeScript best practices
+- Use meaningful variable and function names
+- Write comments for complex logic
+- Ensure all tests pass before submitting PR
+- Update documentation if needed
+
+---
+
+## 🐛 Bug Reports & Feature Requests
+
+Found a bug or have a feature idea?
+
+- **Bug Reports**: [Create an issue](https://github.com/yourusername/study-share/issues) with the "bug" label
+- **Feature Requests**: [Create an issue](https://github.com/yourusername/study-share/issues) with the "enhancement" label
+
+---
 
 ## 📝 License
+
+This project is licensed under the MIT License - see below for details:
 
 ```
 MIT License
@@ -304,10 +773,32 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
+---
+
 ## 👨‍💻 Author
 
-Viraj Gavade
+**Viraj Gavade**
+
+- GitHub: [@VirajGavade](https://github.com/yourusername)
+- LinkedIn: [Viraj Gavade](https://linkedin.com/in/yourprofile)
+- Email: your.email@example.com
 
 ---
 
+## 🙏 Acknowledgments
 
+- Thanks to all contributors who have helped shape this project
+- Inspired by the need for better academic resource sharing
+- Built with ❤️ for students, by students
+
+---
+
+<div align="center">
+
+### ⭐ Star this repo if you find it helpful!
+
+**Made with ❤️ and TypeScript**
+
+[⬆ Back to Top](#-studyshare)
+
+</div>
